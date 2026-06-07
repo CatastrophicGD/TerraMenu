@@ -1,0 +1,107 @@
+#credit goes to https://github.com/cpguy5089/AmongUsMenu_Ghost/blob/main/.github/workflows/build.yml
+name: Build Project
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+  #push:
+    #branches: [ "main" ]
+  
+jobs:
+  Build_Release:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      
+      - name: Build Release
+        shell: bash
+        run: '"C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Msbuild/Current/Bin/MSBuild.exe" -property:Configuration=Release -property:PlatformToolset=v143'
+        
+      - name: Build Release_Version
+        shell: bash
+        run: '"C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Msbuild/Current/Bin/MSBuild.exe" -property:Configuration=Release_Version -property:PlatformToolset=v143'
+        
+      - name: Package Release Builds
+        shell: cmd
+        run: |
+          move /y Release\TerraMenu.dll TerraMenu.dll
+          move /y Release_Version\version.dll version.dll
+          tar -caf Release.zip TerraMenu.dll version.dll LICENSE
+        
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v4.2.0
+        with:
+          name: Release
+          path: Release.zip
+          
+  Build_Debug:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      
+      - name: Build Debug
+        shell: bash
+        run: '"C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Msbuild/Current/Bin/MSBuild.exe" -property:Configuration=Debug -property:PlatformToolset=v143'
+        
+      - name: Build Debug_Version
+        shell: bash
+        run: '"C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Msbuild/Current/Bin/MSBuild.exe" -property:Configuration=Debug_Version -property:PlatformToolset=v143'
+        
+      - name: Package Debug Builds
+        shell: cmd
+        run: |
+          move /y Debug\TerraMenu.dll TerraMenu.dll
+          move /y Debug_Version\version.dll version.dll
+          tar -caf Debug.zip TerraMenu.dll version.dll LICENSE
+        
+      - name: Upload Debug Artifact
+        uses: actions/upload-artifact@v4.2.0
+        with:
+          name: Debug
+          path: Debug.zip
+          
+  AutoRelease:
+    runs-on: windows-2022
+    needs: [Build_Release, Build_Debug]
+    steps:
+#      - name: Parse tag semver
+#        uses: booxmedialtd/ws-action-parse-semver@3576f3a20a39f8752fe0d8195f5ed384090285dc
+#        id: semver_parser
+#        with:
+#          input_string: ${{ github.ref }}
+#          version_extractor_regex: '\/v(.*)$'
+          
+      # please keep this for an adjustment period, will help diagnose any issues
+#      - name: Debug semver
+#        run: |
+#            echo 'major: ${{ steps.semver_parser.outputs.major }}'
+#            echo 'minor: ${{ steps.semver_parser.outputs.minor }}'
+#            echo 'patch: ${{ steps.semver_parser.outputs.patch }}'
+#            echo 'feature (is pre-release?): ${{ steps.semver_parser.outputs.prerelease }}'
+#            echo 'feature ver: ${{ steps.semver_parser.outputs.build }}'
+#            echo 'full: ${{ steps.semver_parser.outputs.fullversion }}'
+#            echo 'is pre-release: ${{ steps.semver_parser.outputs.prerelease != 0 }}'
+      
+      - name: Download Release Artifact
+        uses: actions/download-artifact@v4.1.7
+        with:
+          name: Release
+      
+      - name: Download Debug Artifact
+        uses: actions/download-artifact@v4.1.7
+        with:
+          name: Debug
+      
+      - name: Automatic Releases
+        uses: marvinpinto/action-automatic-releases@latest #maybe this fixed auto release versioning?
+        id: "automatic_releases"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}" #this is gonna give me a stroke
+          automatic_release_tag: "latest"
+          prerelease: false
+          files: |
+            Release.zip
+            Debug.zip
