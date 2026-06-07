@@ -500,7 +500,7 @@ void dInnerNetClient_Update(InnerNetClient* __this, MethodInfo* method)
                 if (!State.SafeMode && State.CycleName && cycleNameDelay <= 0) {
                     std::vector<std::string> validNames;
                     for (std::string i : State.cyclerUserNames) {
-                        if (!IsNameValid(i)) continue; // Screw you, g0aty from the past
+                        if (!IsNameValid(i)) continue; // Screw you, Terra from the past
                         validNames.push_back(i);
                     }
                     for (auto p : GetAllPlayerControl()) {

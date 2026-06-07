@@ -35,6 +35,8 @@ namespace AboutTab {
     void Render() {
         ImGui::SameLine(100 * State.dpiScale);
         ImGui::BeginChild("###About", ImVec2(500 * State.dpiScale, 0), true, ImGuiWindowFlags_NoBackground);
+
+        // Tab group buttons
         if (TabGroup("Welcome", openWelcome)) {
             CloseOtherGroups(Groups::Welcome);
         }
@@ -43,7 +45,12 @@ namespace AboutTab {
             CloseOtherGroups(Groups::Credits);
         }
 
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
         if (openWelcome) {
+            // Title line: "Welcome [back] to TerraMenu vX.X by Terra!"
             ImGui::Text(std::format("Welcome {}to ", State.HasOpenedMenuBefore ? "back " : "").c_str());
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::TextColored(TerraCol, "TerraMenu");
@@ -52,15 +59,20 @@ namespace AboutTab {
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::Text(" by ");
             ImGui::SameLine(0.0f, 0.0f);
-            ImGui::TextColored(GoatCol, "g0aty");
+            ImGui::TextColored(GoatCol, "Terra");
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::Text("!");
+
+            ImGui::Spacing();
 
             ImGui::TextColored(TerraCol, "TerraMenu");
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::Text(" is a powerful utility for Among Us.");
             ImGui::Text("It aims to improve the game experience for all players!");
             ImGui::Text("Use the \"Check for Updates\" button to download the latest release!");
+
+            ImGui::Spacing();
+
             if (ColoredButton(DevCol, "GitHub")) {
                 OpenLink("https://github.com/TerraMenu/TerraMenu");
             }
@@ -72,14 +84,23 @@ namespace AboutTab {
             if (ColoredButton(State.RgbColor, "Donate")) {
                 OpenLink("https://ko-fi.com/g0aty");
             }
+
+            ImGui::Spacing();
+
             ImGui::Text("Join the Discord server for support, bug reports, and sneak peeks!");
             if (ColoredButton(ContributorCol, "Join our Discord!")) {
                 OpenLink("https://discord.gg/TerraMenu"); //TerraMenu discord invite
             }
 
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
             ImGui::TextColored(TerraCol, "TerraMenu");
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::Text(" is a free and open-source software.");
+
+            ImGui::Spacing();
 
             if (State.TerraVersion.find("pr") != std::string::npos || State.TerraVersion.find("rc") != std::string::npos) {
                 if (State.TerraVersion.find("pr") != std::string::npos) ImGui::TextColored(State.RgbColor, "You have access to pre-releases, enjoy!");
@@ -97,13 +118,6 @@ namespace AboutTab {
             if (State.AprilFoolsMode) {
                 ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);
                 auto DiddyCol = ImVec4(0.79f, 0.03f, 1.f, 1.f);
-                /*ImGui::TextColored(DiddyCol, std::format("You now have access to a brand new mode: {} Mode!", State.DiddyPartyMode ? "Diddy Party" :
-                (IsChatCensored() || IsStreamerMode() ? "F***son" : "Fuckson")).c_str());
-                ImGui::TextColored(DiddyCol, "Find all the new features and enjoy!");
-                if (ToggleButton("Diddy Party Mode", &State.DiddyPartyMode)) {
-                    if (State.RizzUpEveryone) State.RizzUpEveryone = false;
-                    State.Save();
-                }*/
                 ImGui::TextColored(DiddyCol, "Happy April Fools'!");
                 ImGui::TextColored(DiddyCol, "This is NOT a real update as the official release is not yet ready.");
                 ImGui::TextColored(DiddyCol, "Please wait for the official release to support the latest versions of Among Us!");
@@ -124,10 +138,19 @@ namespace AboutTab {
             if (ColoredButton(AumCol, "AmongUsMenu")) {
                 OpenLink("https://github.com/BitCrackers/AmongUsMenu");
             }
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
             BoldText("Lead Developer", GoldCol);
             if (ColoredButton(GoatCol, "g0aty")) {
                 OpenLink("https://github.com/g0aty");
             }
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
 
             BoldText("Developers", DevCol);
             if (ColoredButton(DevCol, "GDjkhp")) {
@@ -166,14 +189,26 @@ namespace AboutTab {
                 OpenLink("https://github.com/M4-sicko");
             }
 
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
             BoldText("Contributors", ContributorCol);
+            if (ColoredButton(ContributorCol, "Terra")) {
+                OpenLink("https://github.com/TerraMenu");
+            }
+            ImGui::SameLine(100.f * State.dpiScale);
             if (ColoredButton(ContributorCol, "acer51-doctom")) {
                 OpenLink("https://github.com/acer51-doctom");
             }
-            ImGui::SameLine(100.f * State.dpiScale);
+            ImGui::SameLine(200.f * State.dpiScale);
             if (ColoredButton(ContributorCol, "ZamTDS")) {
                 OpenLink("https://github.com/ZamTDS");
             }
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
 
             BoldText("Some people who contributed to AUM", AumCol);
             if (ColoredButton(AumCol, "KulaGGin")) {
@@ -194,6 +229,8 @@ namespace AboutTab {
             ImGui::SameLine();
             ImGui::Text("(Helped in updating to the Fungle release)");
 
+            ImGui::Spacing();
+
             ImGui::Text("Thanks to");
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::TextColored(AumCol, " v0idp");
@@ -207,11 +244,15 @@ namespace AboutTab {
                 OpenLink("https://github.com/v0idp");
             }
 
+            ImGui::Spacing();
+
             ImGui::Text("Everyone else who contributed to");
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::TextColored(AumCol, " AUM");
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::Text(" and I couldn't list here.");
+
+            ImGui::Spacing();
 
             ImGui::Text("Thank you for making ");
             ImGui::SameLine(0.0f, 0.0f);
