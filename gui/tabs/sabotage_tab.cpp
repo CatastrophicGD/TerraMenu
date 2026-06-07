@@ -24,13 +24,16 @@ namespace SabotageTab {
                 ImGui::Separator();
                 ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);
             }
+            if (IsHost()) FeatureTag(FeatureRequirement::HostOnly);
             if (AnimatedButton("Repair Sabotage")) {
                 RepairSabotage(*Game::pLocalPlayer);
             }
+            FeatureTag(FeatureRequirement::Anyone);
 
             if (ToggleButton("Auto Repair Sabotages", &State.AutoRepairSabotage)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::Anyone);
 
             ImGui::NewLine();
             if (State.DisableSabotages)

@@ -253,18 +253,21 @@ namespace SelfTab {
             if (ToggleButton("Max Vision", &State.MaxVision)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::Anyone);
             ImGui::SameLine();
             if (ToggleButton("Wallhack", &State.Wallhack)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::Anyone);
             ImGui::SameLine();
             ToggleButton("Disable HUD", &State.DisableHud);
+            FeatureTag(FeatureRequirement::Anyone);
 
             if (ToggleButton("Freecam", &State.FreeCam)) {
                 State.playerToFollow = {};
                 State.Save();
             }
-
+            FeatureTag(FeatureRequirement::Anyone);
             ImGui::SameLine(130.f * State.dpiScale);
             SteppedSliderFloat("Speed", &State.FreeCamSpeed, 0.f, 10.f, 0.1f, "%.2fx", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput);
 
@@ -272,7 +275,7 @@ namespace SelfTab {
                 State.Save();
                 if (!State.EnableZoom) RefreshChat();
             }
-
+            FeatureTag(FeatureRequirement::Anyone);
             ImGui::SameLine(130.f * State.dpiScale);
             SteppedSliderFloat("Scale", &State.CameraHeight, 0.5f, 10.0f, 0.5f, "%.2fx", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput);
 
@@ -311,15 +314,18 @@ namespace SelfTab {
             if (ToggleButton("Custom Name", &State.CustomName)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::Anyone);
             ImGui::SameLine();
             if (ToggleButton("Custom Name for Everyone", &State.CustomNameForEveryone)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::Anyone);
 
             if (/*IsHost() || */!State.SafeMode) {
                 if (ToggleButton("Server-sided Custom Name", &State.ServerSideCustomName)) {
                     State.Save();
                 }
+                FeatureTag(FeatureRequirement::SafeModeOff);
             }
 
             if (State.CustomName && ImGui::CollapsingHeader("Custom Name Options"))
@@ -451,6 +457,7 @@ namespace SelfTab {
             if (ToggleButton("Reveal Roles", &State.RevealRoles)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::Anyone);
             ImGui::SameLine(120.0f * State.dpiScale);
             if (ToggleButton("Abbrv. Role", &State.AbbreviatedRoleNames))
             {
@@ -562,6 +569,7 @@ namespace SelfTab {
             if (ToggleButton("Unlock Vents", &State.UnlockVents)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
             ImGui::SameLine();
             if (ToggleButton("Move While in Vent & Shapeshifting", &State.MoveInVentAndShapeshift)) {
                 if (*Game::pLocalPlayer == NULL) State.Save();
@@ -574,6 +582,7 @@ namespace SelfTab {
             if (ToggleButton("Always Move", &State.AlwaysMove)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::Anyone);
 
             if (ToggleButton("No Shapeshift Animation", &State.AnimationlessShapeshift)) {
                 State.Save();
@@ -586,16 +595,20 @@ namespace SelfTab {
             if (ToggleButton("NoClip", &State.NoClip)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
             ImGui::SameLine();
             if (ToggleButton("No Seeker Animation", &State.NoSeekerAnim)) State.Save();
+            FeatureTag(FeatureRequirement::Anyone);
 
             if (ToggleButton("Kill Other Impostors", &State.KillImpostors)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
             ImGui::SameLine();
             if (ToggleButton("Infinite Kill Range", &State.InfiniteKillRange)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
 
             if (ToggleButton("Better Chat Notifications", &State.BetterChatNotifications)) {
                 State.Save();
@@ -616,6 +629,7 @@ namespace SelfTab {
             if (ToggleButton("Autokill", &State.AutoKill)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
 
             if (ToggleButton("Do Tasks as Impostor", &State.DoTasksAsImpostor)) {
                 State.Save();
@@ -638,17 +652,21 @@ namespace SelfTab {
             if (ToggleButton("Fake Alive", &State.FakeAlive)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
             ImGui::SameLine();
             if (((IsHost() && IsInGame()) || !State.SafeMode) && ToggleButton(IsHost() ? "God Mode" : "Visual Protection", &State.GodMode))
                 State.Save();
+            FeatureTag(FeatureRequirement::SafeModeOff);
 
             if (ToggleButton("(Shift/Ctrl + Right Click) to Teleport", &State.ShiftRightClickTP)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
             if (!State.SafeMode) ImGui::SameLine();
             if (!State.SafeMode && ToggleButton("Hold ALT to Teleport Everyone", &State.TeleportEveryone)) {
                 State.Save();
             }
+            if (!State.SafeMode) FeatureTag(FeatureRequirement::SafeModeOff);
             if (ToggleButton((State.SafeMode ? "Rotate Everyone (Client-sided ONLY)" : "Rotate Everyone"), &State.RotateEveryone)) {
                 State.Save();
             }

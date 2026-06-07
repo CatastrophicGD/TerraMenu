@@ -84,7 +84,7 @@ public:
     float RoundingRadiusMultiplier = 1.f;
 
     bool AdjustByDPI = true;
-    float dpiScale = 1.f;
+    float dpiScale = 1.2f;
     bool dpiChanged = false;
 
     std::string CurrentScene;
@@ -393,7 +393,7 @@ public:
 
     bool LightMode = false;
     bool CustomGameTheme = false;
-    ImVec4 MenuThemeColor = ImVec4(1.f, 0.f, 0.424f, 1.f);
+    ImVec4 MenuThemeColor = ImVec4(0.133f, 0.545f, 0.133f, 1.f);
     ImVec4 MenuGradientColor = ImVec4(1.f, 0.f, 0.424f, 1.f);
     ImVec4 MenuGradientColor1 = ImVec4(1.f, 0.f, 0.424f, 1.f);
     ImVec4 MenuGradientColor2 = ImVec4(1.f, 0.f, 0.424f, 1.f);

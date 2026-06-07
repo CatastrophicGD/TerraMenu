@@ -204,14 +204,17 @@ namespace GameTab {
             if (ToggleButton("No Ability Cooldown", &State.NoAbilityCD)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
             ImGui::SameLine();
             if (ToggleButton("Multiply Speed", &State.MultiplySpeed)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
             ImGui::SameLine();
             if (ToggleButton("Modify Kill Distance", &State.ModifyKillDistance)) {
                 State.Save();
             }
+            FeatureTag(FeatureRequirement::SafeModeOff);
 
             ImGui::Dummy(ImVec2(7, 7) * State.dpiScale);
             ImGui::Separator();

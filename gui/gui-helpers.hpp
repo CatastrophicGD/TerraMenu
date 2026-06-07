@@ -32,3 +32,10 @@ bool ColoredButton(ImVec4 col, const char* label);
 void BoldText(const char* text, ImVec4 col = ImVec4(0.f, 0.f, 0.f, 0.f));
 bool SliderIntV2(const char* label, int* v, int v_min, int v_max, const char* format, ImGuiSliderFlags flags);
 bool AnimatedButton(const char* label, const ImVec2& size = ImVec2(0, 0));
+
+enum class FeatureRequirement {
+    Anyone,       // client-side — works for all players, no host or safe mode needed
+    HostOnly,     // requires being the lobby host
+    SafeModeOff   // requires safe mode to be disabled
+};
+void FeatureTag(FeatureRequirement req);
