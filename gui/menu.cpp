@@ -4,6 +4,7 @@
 #include "tabs/about_tab.h"
 #include "tabs/doors_tab.h"
 #include "tabs/game_tab.h"
+#include "tabs/chat_tab.h"
 #include "tabs/host_tab.h"
 #include "tabs/players_tab.h"
 #include "tabs/radar_tab.h"
@@ -26,6 +27,7 @@ namespace Menu {
         static bool openAbout = false;
         static bool openSettings = false;
         static bool openGame = false;
+        static bool openChat = false;
         static bool openSelf = false;
         static bool openRadar = false;
         static bool openReplay = false;
@@ -80,6 +82,7 @@ namespace Menu {
                 openAbout = openTab == Tabs::About;
                 openSettings = openTab == Tabs::Settings;
                 openGame = openTab == Tabs::Game;
+                openChat = openTab == Tabs::Chat;
                 openSelf = openTab == Tabs::Self;
                 openRadar = openTab == Tabs::Radar;
                 openReplay = openTab == Tabs::Replay;
@@ -95,7 +98,7 @@ namespace Menu {
         }
 
         void Init() {
-                ImGui::SetNextWindowSize(ImVec2(640, 480) * State.dpiScale, ImGuiCond_None);
+                ImGui::SetNextWindowSize(ImVec2(640, 480) * State.dpiScale, ImGuiCond_FirstUseEver);
                 ImGui::SetNextWindowBgAlpha(State.MenuThemeColor.w);
         }
 
@@ -145,7 +148,7 @@ namespace Menu {
                         if (!init)
                                 Menu::Init();
                         std::string modText = std::format("TerraMenu {}", State.TerraVersion);
-                        ImGui::Begin("TerraMenu", &State.ShowMenu, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollWithMouse);
+                        ImGui::Begin("TerraMenu", &State.ShowMenu, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollWithMouse);
                         static ImVec4 titleCol = State.MenuThemeColor;
                         if (State.RgbMenuTheme)
                                 titleCol = State.RgbColor;
@@ -184,6 +187,9 @@ namespace Menu {
                         }
                         if (ImGui::Selectable("Game", openGame)) {
                                 CloseAllOtherTabs(Tabs::Game);
+                        }
+                        if (ImGui::Selectable("Chat", openChat)) {
+                                CloseAllOtherTabs(Tabs::Chat);
                         }
                         if (ImGui::Selectable("Self", openSelf)) {
                                 CloseAllOtherTabs(Tabs::Self);
@@ -270,6 +276,7 @@ namespace Menu {
                         }
                         if (openSettings) SettingsTab::Render();
                         if (openGame) GameTab::Render();
+                        if (openChat) ChatTab::Render();
                         if (openSelf) SelfTab::Render();
                         if (openRadar) RadarTab::Render();
                         if (openReplay) ReplayTab::Render();

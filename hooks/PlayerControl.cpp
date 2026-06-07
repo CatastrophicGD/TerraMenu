@@ -684,6 +684,8 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
             {
                 // Always store the raw cosmetic colour so tracer colour-modes can use it
                 espPlayerData.CosmeticColor = AmongUsColorToImVec4(GetPlayerColor(outfit->fields.ColorId));
+                // Always store role colour independent of ShowEsp_RoleBased toggle
+                espPlayerData.RoleColor = AmongUsColorToImVec4(GetRoleColor(playerData->fields.Role));
 
                 espPlayerData.Color = ImVec4(0.f, 0.f, 0.f, 0.f);
                 if (State.ShowEsp_RoleBased) {
@@ -703,6 +705,7 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
             else
             {
                 espPlayerData.CosmeticColor = ImVec4(0.f, 0.f, 0.f, 0.f);
+                espPlayerData.RoleColor = AmongUsColorToImVec4(GetRoleColor(playerData->fields.Role));
                 espPlayerData.Color = ImVec4(0.f, 0.f, 0.f, 0.f);
                 if (State.ShowEsp_RoleBased) {
                     if (State.ShowEsp_Crew && !PlayerIsImpostor(playerData) && (State.ShowEsp_Ghosts || !playerData->fields.IsDead))

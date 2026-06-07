@@ -211,11 +211,11 @@ void dVersionShower_Start(VersionShower* __this, MethodInfo* method) {
     }
     std::string disableHostAnticheatText = State.CurrentScene == "FindAGame" && State.DisableHostAnticheat ? " • <#f00>+25 Mode is ON</color>" : "";
     std::string watermarkOffset = State.CurrentScene == "MMOnline" ? "<#0000>00000</color>" : "";
-    std::string terraText = "<#ff006c>TerraMenu</color>";
-    std::string goatText = "<#ef0143>Terra</color>";
+    std::string terraText = "<#22a822>TerraMenu</color>";
+    std::string goatText = "<#22a822>Terra</color>";
     /*if (!State.HideWatermark) {
-        terraText = GetGradientUsername("TerraMenu", ImVec4(1.f, 0.f, 0.424f, 1.f), ImVec4(0.502f, 0.075f, 0.256f, 1.f));
-        goatText = GetGradientUsername("Terra", ImVec4(0.937f, 0.004f, 0.263f, 1.f), ImVec4(0.529f, 0.008f, 0.157f, 1.f));
+        terraText = GetGradientUsername("TerraMenu", ImVec4(0.133f, 0.545f, 0.133f, 1.f), ImVec4(0.0f, 0.39f, 0.0f, 1.f));
+        goatText = GetGradientUsername("Terra", ImVec4(0.133f, 0.545f, 0.133f, 1.f), ImVec4(0.0f, 0.39f, 0.0f, 1.f));
     }*/
     std::string watermarkText = /*State.AprilFoolsMode ? std::format(" • {} <#fb0>{}</color> <#ca08ff>[{} Mode]</color> by {}", terraText,
         State.TerraVersion, State.DiddyPartyMode ? "Diddy Party" : (IsChatCensored() || IsStreamerMode() ? "F***son" : "Fuckson"), goatText) :*/
@@ -292,8 +292,8 @@ void dPingTracker_Update(PingTracker* __this, MethodInfo* method) {
             if (!State.HideWatermark) {
                 static uint8_t gradientOffset = 0;
                 static int gradientDelay = 0;
-                terraText = GetGradientUsername("TerraMenu", ImVec4(1.f, 0.f, 0.424f, 1.f), ImVec4(0.502f, 0.075f, 0.256f, 1.f), gradientOffset);
-                goatText = GetGradientUsername("Terra", ImVec4(0.937f, 0.004f, 0.263f, 1.f), ImVec4(0.529f, 0.008f, 0.157f, 1.f), gradientOffset);
+                terraText = GetGradientUsername("TerraMenu", ImVec4(0.133f, 0.545f, 0.133f, 1.f), ImVec4(0.0f, 0.39f, 0.0f, 1.f), gradientOffset);
+                goatText = GetGradientUsername("Terra", ImVec4(0.133f, 0.545f, 0.133f, 1.f), ImVec4(0.0f, 0.39f, 0.0f, 1.f), gradientOffset);
                 if (gradientDelay <= 0) {
                     gradientOffset++;
                     gradientDelay = (int)(0.1 * fps);

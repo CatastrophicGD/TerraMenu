@@ -295,6 +295,8 @@ public:
     bool ShowEsp_Tracers_Ghosts = false;
     bool ShowEsp_ColorBasedTracers = false;
     bool ShowEsp_DistanceBasedTracers = false;
+    bool ShowEsp_RoleColorTracers = false;
+    bool ShowEsp_RoleColorBox = false;
 
     bool InMeeting = false;
     bool PlayMedbayScan = false;
@@ -394,10 +396,10 @@ public:
     bool LightMode = false;
     bool CustomGameTheme = false;
     ImVec4 MenuThemeColor = ImVec4(0.133f, 0.545f, 0.133f, 1.f);
-    ImVec4 MenuGradientColor = ImVec4(1.f, 0.f, 0.424f, 1.f);
-    ImVec4 MenuGradientColor1 = ImVec4(1.f, 0.f, 0.424f, 1.f);
-    ImVec4 MenuGradientColor2 = ImVec4(1.f, 0.f, 0.424f, 1.f);
-    ImVec4 RgbColor = ImVec4(1.f, 0.071f, 0.f, 1.f);
+    ImVec4 MenuGradientColor = ImVec4(0.133f, 0.545f, 0.133f, 1.f);
+    ImVec4 MenuGradientColor1 = ImVec4(0.0f, 0.39f, 0.0f, 1.f);
+    ImVec4 MenuGradientColor2 = ImVec4(0.2f, 0.8f, 0.2f, 1.f);
+    ImVec4 RgbColor = ImVec4(0.133f, 0.545f, 0.133f, 1.f);
     ImVec4 SelectedColor = ImVec4(1.f, 1.f, 1.f, 0.75f);
     ImVec4 SelectedReplayMapColor = ImVec4(1.f, 1.f, 1.f, 0.75f);
     ImVec4 GameTextColor = ImVec4(0.f, 0.f, 0.f, 1.f);

@@ -62,6 +62,7 @@ struct EspPlayerData
         ImVec2 Position = { 0.0f, 0.0f };
         ImVec4 Color{ 0.0f, 0.0f, 0.0f, 0.0f };
         ImVec4 CosmeticColor{ 0.0f, 0.0f, 0.0f, 0.0f }; // always the player's cosmetic/outfit color
+        ImVec4 RoleColor{ 0.0f, 0.0f, 0.0f, 0.0f };    // always the player's role color
 
         std::string Name = std::string();
 

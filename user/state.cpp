@@ -192,6 +192,8 @@ void Settings::Load() {
         JSON_TRYGET("ShowEsp_Tracers_Ghosts", this->ShowEsp_Tracers_Ghosts);
         JSON_TRYGET("ShowEsp_ColorBasedTracers", this->ShowEsp_ColorBasedTracers);
         JSON_TRYGET("ShowEsp_DistanceBasedTracers", this->ShowEsp_DistanceBasedTracers);
+        JSON_TRYGET("ShowEsp_RoleColorTracers", this->ShowEsp_RoleColorTracers);
+        JSON_TRYGET("ShowEsp_RoleColorBox", this->ShowEsp_RoleColorBox);
 
         JSON_TRYGET("MaxVision", this->MaxVision);
         JSON_TRYGET("Wallhack", this->Wallhack);
@@ -706,6 +708,8 @@ void Settings::Save() {
                 { "ShowEsp_Tracers_Ghosts", this->ShowEsp_Tracers_Ghosts },
                 { "ShowEsp_ColorBasedTracers", this->ShowEsp_ColorBasedTracers },
                 { "ShowEsp_DistanceBasedTracers", this->ShowEsp_DistanceBasedTracers },
+                { "ShowEsp_RoleColorTracers", this->ShowEsp_RoleColorTracers },
+                { "ShowEsp_RoleColorBox", this->ShowEsp_RoleColorBox },
 
                 { "MaxVision", this->MaxVision },
                 { "Wallhack", this->Wallhack },

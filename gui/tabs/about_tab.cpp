@@ -24,7 +24,7 @@ namespace AboutTab {
         openCredits = group == Groups::Credits;
     }
 
-    const ImVec4 TerraCol = ImVec4(1.f, 0.f, 0.424f, 1.f);
+    const ImVec4 TerraCol = ImVec4(0.133f, 0.545f, 0.133f, 1.f);
     const ImVec4 RedCol = ImVec4(1.f, 0.f, 0.f, 1.0f);
     const ImVec4 AumCol = ImVec4(1.f, 0.3333f, 0.3333f, 1.0f);
     const ImVec4 GoldCol = ImVec4(1.f, 0.7333f, 0.f, 1.0f);
@@ -80,17 +80,6 @@ namespace AboutTab {
             if (ColoredButton(GoldCol, "Check for Updates")) {
                 OpenLink("https://github.com/TerraMenu/TerraMenu/releases/latest");
             }
-            ImGui::SameLine();
-            if (ColoredButton(State.RgbColor, "Donate")) {
-                OpenLink("https://ko-fi.com/g0aty");
-            }
-
-            ImGui::Spacing();
-
-            ImGui::Text("Join the Discord server for support, bug reports, and sneak peeks!");
-            if (ColoredButton(ContributorCol, "Join our Discord!")) {
-                OpenLink("https://discord.gg/TerraMenu"); //TerraMenu discord invite
-            }
 
             ImGui::Spacing();
             ImGui::Separator();
@@ -129,14 +118,12 @@ namespace AboutTab {
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::Text(" is a fork of");
             ImGui::SameLine(0.0f, 0.0f);
-            ImGui::TextColored(AumCol, " AmongUsMenu");
-            ImGui::SameLine(0.0f, 0.0f);
-            ImGui::TextColored(RedCol, " (archived)");
+            ImGui::TextColored(DevCol, " SickoMenu");
             ImGui::SameLine(0.0f, 0.0f);
             ImGui::Text(", go check it out!");
 
-            if (ColoredButton(AumCol, "AmongUsMenu")) {
-                OpenLink("https://github.com/BitCrackers/AmongUsMenu");
+            if (ColoredButton(DevCol, "SickoMenu")) {
+                OpenLink("https://github.com/scp222thj/SickoMenu");
             }
 
             ImGui::Spacing();
