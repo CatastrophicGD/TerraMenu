@@ -1,15 +1,7 @@
-<p align="center">
-   <img src="TerraBanner.png">
-  </p>
-
-<h1 align="center">👺 TerraMenu v1.0.0</h1>
+<h1 align="center">TerraMenu v1.0.0</h1>
 A powerful utility for Among Us designed to enrich your game experience with custom features!
 
 **Intended for educational and experimental use only.**
-
-Join our very own Discord server for support, bug reports, and sneak peeks!  
-### Vanity Invite: https://discord.gg/TerraMenu  
-### Permanent invite: https://discord.gg/TerraMenu 
 ---
 
 ## ⚠️ Disclaimer
@@ -64,11 +56,6 @@ A huge amount of features!!
 > 🔸 Features marked with **"!"** may impact game balance. Always obtain lobby consent
 
 ---
-
-## 📸 Screenshot
-<p align="center">
-   <img src="screenshot.png">
-</p>
 
 ## 👌 Supported Versions
 - ✅ Steam (Supported)
