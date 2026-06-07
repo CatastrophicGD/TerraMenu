@@ -1,4 +1,5 @@
-﻿#include "pch-il2cpp.h"
+﻿#pragma execution_character_set("utf-8")
+#include "pch-il2cpp.h"
 #include "utility.h"
 #include "state.hpp"
 #include "game.h"

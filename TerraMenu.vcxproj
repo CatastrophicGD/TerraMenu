@@ -50,6 +50,7 @@
     <ClCompile Include="gui\tabs\debug_tab.cpp" />
     <ClCompile Include="gui\tabs\doors_tab.cpp" />
     <ClCompile Include="gui\tabs\esp_tab.cpp" />
+    <ClCompile Include="gui\tabs\chat_tab.cpp" />
     <ClCompile Include="gui\tabs\game_tab.cpp" />
     <ClCompile Include="gui\tabs\host_tab.cpp" />
     <ClCompile Include="gui\tabs\players_tab.cpp" />
@@ -342,6 +343,7 @@
     <ClInclude Include="gui\tabs\debug_tab.h" />
     <ClInclude Include="gui\tabs\doors_tab.h" />
     <ClInclude Include="gui\tabs\esp_tab.h" />
+    <ClInclude Include="gui\tabs\chat_tab.h" />
     <ClInclude Include="gui\tabs\game_tab.h" />
     <ClInclude Include="gui\tabs\host_tab.h" />
     <ClInclude Include="gui\tabs\players_tab.h" />

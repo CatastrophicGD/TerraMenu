@@ -9,7 +9,7 @@
 Settings State;
 
 void Settings::Load() {
-    this->TerraVersion = "v4.5.2";
+    this->TerraVersion = "v1.0.0";
 
     auto path = getModulePath(hModule);
     auto configPath = path.parent_path() / "terra-selected-config.json";
