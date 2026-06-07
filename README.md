@@ -3,7 +3,8 @@ This menu is forked from HyperMenu and SickoMenu. All credit goes to scp222thj a
 To access the originals, go to https://github.com/The-HyperMenu-Team/HyperMenu / https://github.com/g0aty/SickoMenu
 
 HyperMenu Discord:
-https://discord.gg/c8b4trJtQx
+https://discord.gg/c8b4trJtQx\
+
 MalumMenu Discord:
 https://discord.gg/GZKcdkFD5
 
