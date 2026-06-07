@@ -516,8 +516,8 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
                     break;
                 GameOptions options;
                 if (PlayerIsImpostor(localData)
-					&& options.GetBool(app::BoolOptionNames__Enum::ImpostorsCanSeeProtect))
-					break;
+                                        && options.GetBool(app::BoolOptionNames__Enum::ImpostorsCanSeeProtect))
+                                        break;
                 bool isPlaying = false;
                 for (auto anim : il2cpp::List(__this->fields.currentRoleAnimations))
                     if (anim->fields.effectType == RoleEffectAnimation_EffectType__Enum::ProtectLoop) {
@@ -677,9 +677,14 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
             }
             auto outfit = GetPlayerOutfit(playerData);
             EspPlayerData espPlayerData;
-            espPlayerData.Position = WorldToScreen(playerPos);
+            espPlayerData.Position    = WorldToScreen(playerPos);
+            espPlayerData.IsDead      = playerData->fields.IsDead;
+            espPlayerData.IsImpostor  = PlayerIsImpostor(playerData);
             if (outfit != NULL)
             {
+                // Always store the raw cosmetic colour so tracer colour-modes can use it
+                espPlayerData.CosmeticColor = AmongUsColorToImVec4(GetPlayerColor(outfit->fields.ColorId));
+
                 espPlayerData.Color = ImVec4(0.f, 0.f, 0.f, 0.f);
                 if (State.ShowEsp_RoleBased) {
                     if (State.ShowEsp_Crew && !PlayerIsImpostor(playerData) && (State.ShowEsp_Ghosts || !playerData->fields.IsDead))
@@ -697,6 +702,7 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
             }
             else
             {
+                espPlayerData.CosmeticColor = ImVec4(0.f, 0.f, 0.f, 0.f);
                 espPlayerData.Color = ImVec4(0.f, 0.f, 0.f, 0.f);
                 if (State.ShowEsp_RoleBased) {
                     if (State.ShowEsp_Crew && !PlayerIsImpostor(playerData) && (State.ShowEsp_Ghosts || !playerData->fields.IsDead))
@@ -712,8 +718,8 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
 
                 espPlayerData.Name = "<Unknown>";
             }
-            espPlayerData.OnScreen = IsWithinScreenBounds(playerPos);
-            espPlayerData.Distance = Vector2_Distance(localPos, playerPos, nullptr);
+            espPlayerData.OnScreen  = IsWithinScreenBounds(playerPos);
+            espPlayerData.Distance  = Vector2_Distance(localPos, playerPos, nullptr);
             espPlayerData.playerData = PlayerSelection(__this);
 
             drawing_t& instance = Esp::GetDrawing();
@@ -928,8 +934,8 @@ void dPlayerControl_MurderPlayer(PlayerControl* __this, PlayerControl* target, M
         if (__this->fields._.OwnerId != (*Game::pAmongUsClient)->fields._.ClientId) {
             if (!target || target->fields.protectedByGuardianId < 0)
                 __this->fields.killTimer = (std::max)(GameOptions().GetKillCooldown(), 0.f);
-			else
-				__this->fields.killTimer = (std::max)(GameOptions().GetKillCooldown() * 0.5f, 0.f);
+                        else
+                                __this->fields.killTimer = (std::max)(GameOptions().GetKillCooldown() * 0.5f, 0.f);
             //STREAM_DEBUG("Player " << ToString(__this) << " KillTimer " << __this->fields.killTimer);
         }
 

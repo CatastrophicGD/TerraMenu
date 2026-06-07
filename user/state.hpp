@@ -283,12 +283,18 @@ public:
     bool ShowEsp = false;
     bool ShowEsp_Ghosts = true;
     bool ShowEsp_Box = true;
-    bool ShowEsp_Tracers = true;
     bool ShowEsp_Distance = true;
     bool HideEsp_During_Meetings = false;
     bool ShowEsp_RoleBased = false;
     bool ShowEsp_Crew = true;
     bool ShowEsp_Imp = true;
+    // Tracer options (ported from HyperMenu)
+    bool ShowEsp_Tracers = true;
+    bool ShowEsp_Tracers_Crew = true;
+    bool ShowEsp_Tracers_Imp = true;
+    bool ShowEsp_Tracers_Ghosts = false;
+    bool ShowEsp_ColorBasedTracers = false;
+    bool ShowEsp_DistanceBasedTracers = false;
 
     bool InMeeting = false;
     bool PlayMedbayScan = false;

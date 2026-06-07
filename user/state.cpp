@@ -91,7 +91,7 @@ void Settings::Load() {
         JSON_TRYGET("FakeFriendCode", this->FakeFriendCode);
         JSON_TRYGET("SpoofPlatform", this->SpoofPlatform);
         JSON_TRYGET("FakePlatform", this->FakePlatform);
-		JSON_TRYGET("SpoofPsnId", this->SpoofPsnId);
+                JSON_TRYGET("SpoofPsnId", this->SpoofPsnId);
         JSON_TRYGET("FakePsnId", this->FakePsnId);
         JSON_TRYGET("SpoofXboxId", this->SpoofXboxId);
         JSON_TRYGET("FakeXboxId", this->FakeXboxId);
@@ -102,7 +102,7 @@ void Settings::Load() {
         JSON_TRYGET("DisableAnimations", this->DisableAnimations);
         JSON_TRYGET("AnimationSpeed", this->AnimationSpeed);
         JSON_TRYGET("RoundingRadiusMultiplier", this->RoundingRadiusMultiplier);
-		this->RoundingRadiusMultiplier = std::clamp(this->RoundingRadiusMultiplier, 0.f, 2.f);
+                this->RoundingRadiusMultiplier = std::clamp(this->RoundingRadiusMultiplier, 0.f, 2.f);
         JSON_TRYGET("ExtraCommands", this->ExtraCommands);
 
         JSON_TRYGET("NoAbilityCD", this->NoAbilityCD);
@@ -181,12 +181,17 @@ void Settings::Load() {
         JSON_TRYGET("ShowEsp", this->ShowEsp);
         JSON_TRYGET("ShowEsp_Ghosts", this->ShowEsp_Ghosts);
         JSON_TRYGET("ShowEsp_Box", this->ShowEsp_Box);
-        JSON_TRYGET("ShowEsp_Tracers", this->ShowEsp_Tracers);
         JSON_TRYGET("ShowEsp_Distance", this->ShowEsp_Distance);
         JSON_TRYGET("HideEsp_During_Meetings", this->HideEsp_During_Meetings);
         JSON_TRYGET("ShowEsp_RoleBased", this->ShowEsp_RoleBased);
         JSON_TRYGET("ShowEsp_Crew", this->ShowEsp_Crew);
         JSON_TRYGET("ShowEsp_Imp", this->ShowEsp_Imp);
+        JSON_TRYGET("ShowEsp_Tracers", this->ShowEsp_Tracers);
+        JSON_TRYGET("ShowEsp_Tracers_Crew", this->ShowEsp_Tracers_Crew);
+        JSON_TRYGET("ShowEsp_Tracers_Imp", this->ShowEsp_Tracers_Imp);
+        JSON_TRYGET("ShowEsp_Tracers_Ghosts", this->ShowEsp_Tracers_Ghosts);
+        JSON_TRYGET("ShowEsp_ColorBasedTracers", this->ShowEsp_ColorBasedTracers);
+        JSON_TRYGET("ShowEsp_DistanceBasedTracers", this->ShowEsp_DistanceBasedTracers);
 
         JSON_TRYGET("MaxVision", this->MaxVision);
         JSON_TRYGET("Wallhack", this->Wallhack);
@@ -489,7 +494,7 @@ void Settings::Load() {
             }
         }
 
-		if (j.contains("PlayerHistory") && j["PlayerHistory"].is_array()) {
+                if (j.contains("PlayerHistory") && j["PlayerHistory"].is_array()) {
             this->PlayerHistory.clear();
             for (auto& item : j["PlayerHistory"]) {
                 Settings::RememberedPlayer p;
@@ -600,7 +605,7 @@ void Settings::Save() {
                 { "StealedPUID", this->StealedPUID },
                 { "SpoofPlatform", this->SpoofPlatform },
                 { "FakePlatform", this->FakePlatform },
-			    { "SpoofPsnId", this->SpoofPsnId },
+                            { "SpoofPsnId", this->SpoofPsnId },
                 { "FakePsnId", this->FakePsnId },
                 { "SpoofXboxId", this->SpoofXboxId },
                 { "FakeXboxId", this->FakeXboxId },
@@ -690,12 +695,17 @@ void Settings::Save() {
                 { "ShowEsp", this->ShowEsp },
                 { "ShowEsp_Ghosts", this->ShowEsp_Ghosts },
                 { "ShowEsp_Box", this->ShowEsp_Box },
-                { "ShowEsp_Tracers", this->ShowEsp_Tracers },
                 { "ShowEsp_Distance", this->ShowEsp_Distance },
                 { "HideEsp_During_Meetings", this->HideEsp_During_Meetings },
                 { "ShowEsp_RoleBased", this->ShowEsp_RoleBased },
                 { "ShowEsp_Crew", this->ShowEsp_Crew },
                 { "ShowEsp_Imp", this->ShowEsp_Imp },
+                { "ShowEsp_Tracers", this->ShowEsp_Tracers },
+                { "ShowEsp_Tracers_Crew", this->ShowEsp_Tracers_Crew },
+                { "ShowEsp_Tracers_Imp", this->ShowEsp_Tracers_Imp },
+                { "ShowEsp_Tracers_Ghosts", this->ShowEsp_Tracers_Ghosts },
+                { "ShowEsp_ColorBasedTracers", this->ShowEsp_ColorBasedTracers },
+                { "ShowEsp_DistanceBasedTracers", this->ShowEsp_DistanceBasedTracers },
 
                 { "MaxVision", this->MaxVision },
                 { "Wallhack", this->Wallhack },
@@ -993,7 +1003,7 @@ void Settings::Save() {
                     return banList;
                 }() },
 
-			    { "PlayerHistory", [&]() {
+                            { "PlayerHistory", [&]() {
                     nlohmann::ordered_json arr = nlohmann::ordered_json::array();
                     for (const auto& p : this->PlayerHistory) {
                         arr.push_back({

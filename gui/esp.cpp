@@ -73,6 +73,50 @@ static void RenderBox(const ImVec2& top, const ImVec2& bottom, const float heigh
 	}
 }
 
+// Ported from HyperMenu TracersHandler.cs: GetDistanceBasedColor
+// Red = close (<=2 units), Yellow = medium, Green = far (>=20 units)
+static ImVec4 GetDistanceBasedColor(float distance)
+{
+	constexpr float maxDistance = 20.0f;
+	constexpr float minDistance = 2.0f;
+
+	float normalized = (distance - minDistance) / (maxDistance - minDistance);
+	if (normalized < 0.0f) normalized = 0.0f;
+	if (normalized > 1.0f) normalized = 1.0f;
+
+	const ImVec4 red    = { 1.0f, 0.0f, 0.0f, 1.0f };
+	const ImVec4 yellow = { 1.0f, 1.0f, 0.0f, 1.0f };
+	const ImVec4 green  = { 0.0f, 1.0f, 0.0f, 1.0f };
+
+	if (normalized < 0.5f) {
+		float t = normalized * 2.0f;
+		return { red.x + (yellow.x - red.x) * t,
+		         red.y + (yellow.y - red.y) * t,
+		         red.z + (yellow.z - red.z) * t, 1.0f };
+	} else {
+		float t = (normalized - 0.5f) * 2.0f;
+		return { yellow.x + (green.x - yellow.x) * t,
+		         yellow.y + (green.y - yellow.y) * t,
+		         yellow.z + (green.z - yellow.z) * t, 1.0f };
+	}
+}
+
+// Compute the tracer color for a player entry using HyperMenu's logic:
+//   - distanceBasedTracers: red(close) -> yellow -> green(far)
+//   - colorBasedTracers:    player's cosmetic/outfit color
+//   - default:              role/team color (it.Color, already computed by the hook)
+static ImVec4 GetTracerColor(const EspPlayerData& it)
+{
+	if (State.ShowEsp_DistanceBasedTracers)
+		return GetDistanceBasedColor(it.Distance);
+	if (State.ShowEsp_ColorBasedTracers)
+		return it.CosmeticColor;
+	// Default: ghosts draw white, others use the pre-computed color (role or cosmetic)
+	if (it.IsDead)
+		return { 1.0f, 1.0f, 1.0f, 1.0f };
+	return it.Color;
+}
+
 bool renderPlayerEsp = false;
 
 void Esp::Render()
@@ -90,9 +134,9 @@ void Esp::Render()
 			for (auto& it : instance.m_Players)
 			{
 				if (const auto& player = it.playerData.validate();
-					player.has_value()						//Verify PlayerControl hasn't been destroyed (happens when disconnected)
-					&& !player.is_Disconnected()		//Sanity check, shouldn't ever be true
-					&& player.is_LocalPlayer()			//highlight yourself, you're ugly
+					player.has_value()
+					&& !player.is_Disconnected()
+					&& player.is_LocalPlayer()
 					&& (!player.get_PlayerData()->fields.IsDead || State.ShowEsp_Ghosts)
 					&& it.OnScreen)
 				{
@@ -107,7 +151,6 @@ void Esp::Render()
 						RenderBox(top, bottom, height, width, it.Color);
 					}
 
-					// TODO: show x and y
 					if (State.ShowEsp_Distance)
 					{
 						const ImVec2 position{ it.Position.x, it.Position.y + 15.0f * State.dpiScale };
@@ -126,13 +169,14 @@ void Esp::Render()
 				}
 			}
 		}
-		// track player codes
+
+		// Main player ESP loop
 		for (auto& it : instance.m_Players)
 		{
 			if (const auto& player = it.playerData.validate();
-				player.has_value()						//Verify PlayerControl hasn't been destroyed (happens when disconnected)
-				&& !player.is_Disconnected()		//Sanity check, shouldn't ever be true
-				&& !player.is_LocalPlayer()			//Don't highlight yourself, you're ugly
+				player.has_value()
+				&& !player.is_Disconnected()
+				&& !player.is_LocalPlayer()
 				&& (!player.get_PlayerData()->fields.IsDead || State.ShowEsp_Ghosts)
 				&& it.OnScreen)
 			{
@@ -149,73 +193,79 @@ void Esp::Render()
 
 					RenderBox(top, bottom, height, width, it.Color);
 				}
+
 				/////////////////////////////////
 				//// Distance ///////////////////
 				/////////////////////////////////
-
 				if (State.ShowEsp_Distance)
 				{
-					// logic and calculation
 					ImVec2 position = { it.Position.x, it.Position.y + 15.0f * State.dpiScale };
 					ImVec2 position2 = { it.Position.x, it.Position.y + 30.0f * State.dpiScale };
 
-					// infamous trash codes
 					float minX = 40.0f, minY = 0.0f,
-						maxX = DirectX::GetWindowSize().x - 46.0f, // 1320
-						maxY = DirectX::GetWindowSize().y - 38.0f; // 730
+						maxX = DirectX::GetWindowSize().x - 46.0f,
+						maxY = DirectX::GetWindowSize().y - 38.0f;
 
 					float x = it.Position.x, y = it.Position.y;
 					float offset = 15.0f * State.dpiScale;
 
-					if (x < minX) {
-						x = minX;
-					}
-					else if (x > maxX) {
-						x = maxX;
-					}
+					if (x < minX) x = minX;
+					else if (x > maxX) x = maxX;
 
-					if (y < minY) {
-						y = minY;
-					}
-					else if (y > maxY) {
-						y = maxY;
-					}
+					if (y < minY) y = minY;
+					else if (y > maxY) y = maxY;
 
-					position = { x, y + offset };
+					position  = { x, y + offset };
 					position2 = { x, y + 2 * offset };
 
-					// strings
 					char distance[32];
 					sprintf_s(distance, "[%.0fm]", it.Distance);
 
 					std::string lol = it.Name;
-					char* player = lol.data();
+					char* playerName = lol.data();
 
-					//std::string lol2 = std::to_string(it.Position.x) + ", " + std::to_string(it.Position.y);
-					//char* pl = lol2.data();
-
-					// kill cd update
 					GameOptions options;
-					if (const auto& player = it.playerData.validate();
+					if (const auto& playerVal = it.playerData.validate();
 						State.ShowKillCD
-						&& !player.get_PlayerData()->fields.IsDead
-						&& player.get_PlayerData()->fields.Role
-						&& player.get_PlayerData()->fields.Role->fields.CanUseKillButton
-						) {
-						float killTimer = player.get_PlayerControl()->fields.killTimer;
+						&& !playerVal.get_PlayerData()->fields.IsDead
+						&& playerVal.get_PlayerData()->fields.Role
+						&& playerVal.get_PlayerData()->fields.Role->fields.CanUseKillButton)
+					{
+						float killTimer = playerVal.get_PlayerControl()->fields.killTimer;
 						sprintf_s(distance, "[%.1fs]", killTimer);
 					}
 
-					// render info
-					RenderText(player, position, it.Color);
-					RenderText(distance, position2, it.Color);
+					RenderText(playerName, position,  it.Color);
+					RenderText(distance,   position2, it.Color);
 				}
+
 				/////////////////////////////////
-				//// Tracers ////////////////////
+				//// Tracers (HyperMenu port) ///
 				/////////////////////////////////
 				if (State.ShowEsp_Tracers)
 				{
-					RenderLine(instance.LocalPosition, it.Position, it.Color, true);
+					bool isDead = it.IsDead;
+					bool isImp  = it.IsImpostor;
+					bool shouldDraw = false;
+
+					if (!isDead) {
+						// Alive player tracers: honour crew/imp sub-toggles
+						if (!State.ShowEsp_RoleBased) {
+							// No role filter active — draw for everyone
+							shouldDraw = true;
+						} else {
+							shouldDraw = (State.ShowEsp_Tracers_Crew && !isImp)
+							          || (State.ShowEsp_Tracers_Imp  &&  isImp);
+						}
+					} else {
+						// Ghost/dead player tracers: separate toggle (HyperMenu tracersGhosts)
+						shouldDraw = State.ShowEsp_Tracers_Ghosts;
+					}
+
+					if (shouldDraw) {
+						ImVec4 tracerColor = GetTracerColor(it);
+						RenderLine(instance.LocalPosition, it.Position, tracerColor, true);
+					}
 				}
 			}
 		}
